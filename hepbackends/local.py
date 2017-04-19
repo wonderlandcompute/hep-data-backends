@@ -1,6 +1,7 @@
 import os
 import shutil
 import errno
+import socket
 
 from .base import BackendBase
 
@@ -40,3 +41,20 @@ class LocalBackend(BackendBase):
             if exc.errno == errno.EEXIST and os.path.isdir(path):
                 pass
             else: raise
+
+
+
+class LocalHostBackend(LocalBackend):
+    def __init__(self):
+        super(LocalHostBackend, self).__init__()
+        self.hostname = socket.gethostname()
+
+    def copy_from_backend(self, src_path, dst_path):
+        _, src_path_on_host = src_path.split(":")
+        super(LocalHostBackend, self).copy_from_backend(src_path_on_host, dst_path)
+
+    def list_uploaded(self, path):
+        for root, dirs, files in os.walk(path):
+            for basename in files:
+                filename = os.path.join(root, basename)
+                yield self.hostname + ":" + filename
