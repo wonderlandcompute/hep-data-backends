@@ -1,5 +1,5 @@
 from .base import BackendBase
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 class MultiBackend(BackendBase):
     def __init__(self, mapper):
