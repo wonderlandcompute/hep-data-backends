@@ -1,3 +1,4 @@
+import os
 from sh import rsync, ssh
 from .base import BackendBase
 
@@ -12,4 +13,5 @@ class RsyncBackend(BackendBase):
     def list_uploaded(self, path):
         host, path_on_host = path.split(":")
         files = ssh(host, "ls -1", path_on_host).split("\n")
-        return list(filter(None, files))
+        files = list(filter(None, files))
+        return [os.path.join(path, f) for f in files]
