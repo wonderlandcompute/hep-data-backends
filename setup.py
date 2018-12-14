@@ -10,7 +10,7 @@ setup(
     description='HEP backends',
     install_requires=[
         "requests>=2.5.1",
-        "easywebdav-dcache==1.2.4", # fixed easywebdav, see https://github.com/amnong/easywebdav/pull/37
+        "easywebdav", # fixed easywebdav, see https://github.com/amnong/easywebdav/pull/37
         "gitpython",
         "sh>=1.11",
     ]
