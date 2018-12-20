@@ -1,4 +1,4 @@
-from sh import xrdfs, xrdcopy
+from sh import xrdfs, xrdcp
 from .base import BackendBase
 
 
@@ -8,11 +8,11 @@ class XrootdBackend(BackendBase):
         self.suffix = backend_suffix
 
     def copy_from_backend(self, src_path, dst_path):
-        xrdcopy("-r", self.xrd_server + src_path, dst_path)
+        xrdcp("-r", self.xrd_server + src_path, dst_path)
 
     def copy_to_backend(self, src_path, dst_path):
         xrdfs(self.xrd_server, "mkdir", "-p", dst_path)
-        xrdcopy("-f", "-r", src_path, self.xrd_server + dst_path + self.suffix)
+        xrdcp("-f", "-r", src_path, self.xrd_server + dst_path + self.suffix)
 
     def list_uploaded(self, path):
         files = xrdfs(self.xrd_server, "ls", path).split("\n")
